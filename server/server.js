@@ -14,15 +14,12 @@ var io = socketIO(server);
 
 io.on('connection', (socket) => {
 
-  socket.on('createMessage', (data) => {
-    var createdAt = new Date().getTime();
-    var message = {
-      from: data.from,
-      text: data.text,
-      createdAt
-    };
-    console.log('Message ', message);
-    socket.emit('newMessageEvent', message);
+  socket.on('createMessage', (message) => {
+    io.emit('newMessageEvent', {
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    });
   })
 });
 
